@@ -8,6 +8,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -27,6 +28,7 @@ import org.orglot.gosloto.admin.ui.utils.NumbersHelper;
 import org.orglot.gosloto.admin.ui.utils.ShortField;
 import org.orglot.gosloto.dao.managed.dao.ManagedEntity;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayout {
 
@@ -37,17 +39,21 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
   private final Class<T> persistentEntity;
   private final Binder<T> entityBinder;
   private final List<AbstractField> vaadinComponentList = new ArrayList<>();
-
+  private final JpaRepository repository;
+  private final Grid<T> grid;
   private final Button save = new Button("Сохранить");
   private final Button delete = new Button("Удалить");
   private final Button close = new Button("Закрыть");
 
 
-  public AbstractEditForm(ApplicationContext applicationContext) {
+  public AbstractEditForm(ApplicationContext applicationContext,
+                          Class<T> persistentEntity,
+                          JpaRepository repository,
+                          Grid<T> grid) {
+    this.grid = grid;
+    this.repository = repository;
     this.applicationContext = applicationContext;
-
-    persistentEntity = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
-        .getActualTypeArguments()[0];
+    this.persistentEntity = persistentEntity;
 
     //    addClassName("entity-form");
     addClassName("achievement-type-form");
@@ -70,14 +76,14 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
   }
 
   public <T extends ManagedEntity> void deleteAchievementType(AbstractEditForm.DeleteEvent event) {
-    //    achievementTypeService.delete(event.getEntity());
-    //    updateList();
+    repository.delete(event.getEntity());
+        updateList();
     closeEditor();
   }
 
   public void saveAchievementType(AbstractEditForm.SaveEvent event) {
-    //    achievementTypeService.save(event.getEntity());
-    //    updateList();
+    repository.save(event.getEntity());
+        updateList();
     closeEditor();
   }
 
@@ -89,6 +95,12 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
       setVisible(true);
       addClassName("editing");
     }
+  }
+
+  private void updateList() {
+    //    final List<AchievementType> all = repository.findAll(countSelectedRows.getValue(), versionFilter.getValue());
+    var all = repository.findAll();
+    grid.setItems(all);
   }
 
   public void closeEditor() {
@@ -103,7 +115,7 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
     final var className = entity.getSimpleName();
 
     for (var field : entity.getDeclaredFields()) {
-      if (field.getName().equals("createdById")) {
+      if (field.getName().equals("createdById") || field.getName().equals("id")) {
         continue;
       }
 
