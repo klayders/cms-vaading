@@ -1,4 +1,4 @@
-package org.orglot.gosloto.admin.ui.achievementtype;
+package org.orglot.gosloto.admin.ui.views.list.achievementtype;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;

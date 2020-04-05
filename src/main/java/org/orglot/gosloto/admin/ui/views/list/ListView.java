@@ -1,23 +1,24 @@
-package org.orglot.gosloto.admin.ui;
+package org.orglot.gosloto.admin.ui.views.list;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.orglot.gosloto.admin.backend.achievement.service.AchievementTypeService;
 import org.orglot.gosloto.admin.backend.image.service.ImageService;
-import org.orglot.gosloto.admin.ui.achievementtype.AchievementTypeForm;
+import org.orglot.gosloto.admin.ui.MainLayout;
+import org.orglot.gosloto.admin.ui.views.list.achievementtype.AchievementTypeForm;
 import org.orglot.gosloto.domain.achievement.AchievementType;
 
 
-@Route("main")
-@CssImport("./styles/shared-styles.css")
-public class MainView extends VerticalLayout {
+@Route(value = "admin", layout = MainLayout.class)
+@PageTitle("Медаль | Столото cms")
+public class ListView extends VerticalLayout {
 
   private final AchievementTypeForm achievementTypeForm;
 
@@ -26,7 +27,7 @@ public class MainView extends VerticalLayout {
   private final IntegerField versionFilter = new IntegerField("Фильтр по версии", null, event -> updateList());
   private final IntegerField countSelectedRows = new IntegerField("Число записей на странице:", 50, event -> updateList());
 
-  public MainView(AchievementTypeService achievementTypeService, ImageService imageService) {
+  public ListView(AchievementTypeService achievementTypeService, ImageService imageService) {
     this.achievementTypeService = achievementTypeService;
 
     achievementTypeForm = new AchievementTypeForm(imageService.findAll());
