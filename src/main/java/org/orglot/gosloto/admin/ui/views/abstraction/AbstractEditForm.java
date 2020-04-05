@@ -28,7 +28,7 @@ import org.orglot.gosloto.admin.ui.utils.ShortField;
 import org.orglot.gosloto.dao.managed.dao.ManagedEntity;
 import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractForm<T extends ManagedEntity> extends FormLayout {
+public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayout {
 
   private static final String ADMIN_I18N_PREFIX = "admin.";
 
@@ -43,7 +43,7 @@ public abstract class AbstractForm<T extends ManagedEntity> extends FormLayout {
   private final Button close = new Button("Закрыть");
 
 
-  public AbstractForm(ApplicationContext applicationContext) {
+  public AbstractEditForm(ApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
 
     persistentEntity = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass())
@@ -60,22 +60,22 @@ public abstract class AbstractForm<T extends ManagedEntity> extends FormLayout {
     add(vaadinComponentList.toArray(Component[]::new));
     add(createButtonLayout());
 
-    addListener(AbstractForm.SaveEvent.class, this::saveAchievementType);
-    addListener(AbstractForm.DeleteEvent.class, this::deleteAchievementType);
-    addListener(AbstractForm.CloseEvent.class, event -> this.closeEditor());
+    addListener(AbstractEditForm.SaveEvent.class, this::saveAchievementType);
+    addListener(AbstractEditForm.DeleteEvent.class, this::deleteAchievementType);
+    addListener(AbstractEditForm.CloseEvent.class, event -> this.closeEditor());
   }
 
   public void setEntity(T entity) {
     entityBinder.setBean(entity);
   }
 
-  public <T extends ManagedEntity> void deleteAchievementType(AbstractForm.DeleteEvent event) {
+  public <T extends ManagedEntity> void deleteAchievementType(AbstractEditForm.DeleteEvent event) {
     //    achievementTypeService.delete(event.getEntity());
     //    updateList();
     closeEditor();
   }
 
-  public void saveAchievementType(AbstractForm.SaveEvent event) {
+  public void saveAchievementType(AbstractEditForm.SaveEvent event) {
     //    achievementTypeService.save(event.getEntity());
     //    updateList();
     closeEditor();
@@ -173,11 +173,11 @@ public abstract class AbstractForm<T extends ManagedEntity> extends FormLayout {
 
 
   @Getter
-  public static abstract class AbstractFormEvent extends ComponentEvent<AbstractForm<?>> {
+  public static abstract class AbstractFormEvent extends ComponentEvent<AbstractEditForm<?>> {
 
     private final Object entity;
 
-    protected AbstractFormEvent(AbstractForm<?> source, Object entity) {
+    protected AbstractFormEvent(AbstractEditForm<?> source, Object entity) {
       super(source, false);
       this.entity = entity;
     }
@@ -185,21 +185,21 @@ public abstract class AbstractForm<T extends ManagedEntity> extends FormLayout {
 
   public static class SaveEvent extends AbstractFormEvent {
 
-    SaveEvent(AbstractForm<?> source, Object entity) {
+    SaveEvent(AbstractEditForm<?> source, Object entity) {
       super(source, entity);
     }
   }
 
   public static class DeleteEvent extends AbstractFormEvent {
 
-    DeleteEvent(AbstractForm<?> source, Object entity) {
+    DeleteEvent(AbstractEditForm<?> source, Object entity) {
       super(source, entity);
     }
   }
 
   public static class CloseEvent extends AbstractFormEvent {
 
-    CloseEvent(AbstractForm<?> source) {
+    CloseEvent(AbstractEditForm<?> source) {
       super(source, null);
     }
   }

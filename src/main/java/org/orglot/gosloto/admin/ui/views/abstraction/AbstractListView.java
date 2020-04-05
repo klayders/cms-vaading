@@ -1,4 +1,4 @@
-package org.orglot.gosloto.admin.ui.views.list;
+package org.orglot.gosloto.admin.ui.views.abstraction;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -13,13 +13,14 @@ import org.orglot.gosloto.admin.backend.achievement.service.AchievementTypeServi
 import org.orglot.gosloto.admin.backend.image.service.ImageService;
 import org.orglot.gosloto.admin.ui.MainLayout;
 import org.orglot.gosloto.admin.ui.views.list.test.TestForm;
+import org.orglot.gosloto.dao.managed.dao.ManagedEntity;
 import org.orglot.gosloto.domain.achievement.AchievementType;
 import org.springframework.context.ApplicationContext;
 
 
-@Route(value = "admin", layout = MainLayout.class)
-@PageTitle("Медаль | Столото cms")
-public class ListView extends VerticalLayout {
+//@Route(value = "admin", layout = MainLayout.class)
+//@PageTitle("Медаль | Столото cms")
+public class AbstractListView<T extends ManagedEntity> extends VerticalLayout {
 
   private final TestForm entityForm;
 
@@ -28,15 +29,13 @@ public class ListView extends VerticalLayout {
   private final IntegerField versionFilter = new IntegerField("Фильтр по версии", null, event -> updateList());
   private final IntegerField countSelectedRows = new IntegerField("Число записей на странице:", 50, event -> updateList());
 
-  public ListView(AchievementTypeService achievementTypeService,
-                  ImageService imageService,
-                  ApplicationContext applicationContext) {
+  public AbstractListView(AchievementTypeService achievementTypeService,
+                          ImageService imageService,
+                          ApplicationContext applicationContext) {
     this.achievementTypeService = achievementTypeService;
 
     entityForm = new TestForm(imageService.findAll(), applicationContext);
-//    entityForm.addListener(AbstractForm.SaveEvent.class, entityForm::saveAchievementType);
-//    entityForm.addListener(AbstractForm.DeleteEvent.class, entityForm::deleteAchievementType);
-//    entityForm.addListener(AbstractForm.CloseEvent.class, event -> entityForm.closeEditor());
+
 
     var content = new Div(grid, entityForm);
     content.addClassName("content");
