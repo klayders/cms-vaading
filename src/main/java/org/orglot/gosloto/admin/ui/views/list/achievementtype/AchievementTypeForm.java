@@ -68,7 +68,7 @@ public class AchievementTypeForm extends FormLayout {
     );
   }
 
-  public void setAchievementType(AchievementType achievementType){
+  public void setAchievementType(AchievementType achievementType) {
     binder.setBean(achievementType);
   }
 
@@ -90,7 +90,7 @@ public class AchievementTypeForm extends FormLayout {
   }
 
   private void validateAndSave() {
-    if (binder.isValid()){
+    if (binder.isValid()) {
       fireEvent(new SaveEvent(this, binder.getBean()));
     }
   }
@@ -98,6 +98,7 @@ public class AchievementTypeForm extends FormLayout {
   // Events
   @Getter
   public static abstract class AchievementTypeFormEvent extends ComponentEvent<AchievementTypeForm> {
+
     private AchievementType achievementType;
 
     protected AchievementTypeFormEvent(AchievementTypeForm source, AchievementType achievementType) {
@@ -108,12 +109,14 @@ public class AchievementTypeForm extends FormLayout {
   }
 
   public static class SaveEvent extends AchievementTypeFormEvent {
+
     SaveEvent(AchievementTypeForm source, AchievementType AchievementType) {
       super(source, AchievementType);
     }
   }
 
   public static class DeleteEvent extends AchievementTypeFormEvent {
+
     DeleteEvent(AchievementTypeForm source, AchievementType AchievementType) {
       super(source, AchievementType);
     }
@@ -121,6 +124,7 @@ public class AchievementTypeForm extends FormLayout {
   }
 
   public static class CloseEvent extends AchievementTypeFormEvent {
+
     CloseEvent(AchievementTypeForm source) {
       super(source, null);
     }

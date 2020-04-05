@@ -29,7 +29,7 @@ public class AchievementTypeService {
   }
 
   public void delete(AchievementType achievementType) {
-     achievementTypeRepository.delete(achievementType);
+    achievementTypeRepository.delete(achievementType);
   }
 
   public long count() {

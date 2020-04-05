@@ -104,7 +104,6 @@ public class ListView extends VerticalLayout {
   }
 
 
-
   private void editEntity(AchievementType achievementType) {
     if (achievementType == null) {
       closeEditor();
