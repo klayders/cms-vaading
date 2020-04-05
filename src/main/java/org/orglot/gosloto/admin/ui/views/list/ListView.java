@@ -12,30 +12,35 @@ import com.vaadin.flow.router.Route;
 import org.orglot.gosloto.admin.backend.achievement.service.AchievementTypeService;
 import org.orglot.gosloto.admin.backend.image.service.ImageService;
 import org.orglot.gosloto.admin.ui.MainLayout;
-import org.orglot.gosloto.admin.ui.views.list.achievementtype.AchievementTypeForm;
+import org.orglot.gosloto.admin.ui.views.abstraction.AbstractForm;
+import org.orglot.gosloto.admin.ui.views.list.test.TestForm;
 import org.orglot.gosloto.domain.achievement.AchievementType;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.MessageSource;
 
 
 @Route(value = "admin", layout = MainLayout.class)
 @PageTitle("Медаль | Столото cms")
 public class ListView extends VerticalLayout {
 
-  private final AchievementTypeForm achievementTypeForm;
+  private final TestForm entityForm;
 
   private final Grid<AchievementType> grid = new Grid<>(AchievementType.class);
   private final AchievementTypeService achievementTypeService;
   private final IntegerField versionFilter = new IntegerField("Фильтр по версии", null, event -> updateList());
   private final IntegerField countSelectedRows = new IntegerField("Число записей на странице:", 50, event -> updateList());
 
-  public ListView(AchievementTypeService achievementTypeService, ImageService imageService) {
+  public ListView(AchievementTypeService achievementTypeService,
+                  ImageService imageService,
+                  ApplicationContext applicationContext) {
     this.achievementTypeService = achievementTypeService;
 
-    achievementTypeForm = new AchievementTypeForm(imageService.findAll());
-    achievementTypeForm.addListener(AchievementTypeForm.SaveEvent.class, this::saveAchievementType);
-    achievementTypeForm.addListener(AchievementTypeForm.DeleteEvent.class, this::deleteAchievementType);
-    achievementTypeForm.addListener(AchievementTypeForm.CloseEvent.class, event -> closeEditor());
+    entityForm = new TestForm(imageService.findAll(), applicationContext);
+//    entityForm.addListener(AbstractForm.SaveEvent.class, entityForm::saveAchievementType);
+//    entityForm.addListener(AbstractForm.DeleteEvent.class, entityForm::deleteAchievementType);
+//    entityForm.addListener(AbstractForm.CloseEvent.class, event -> entityForm.closeEditor());
 
-    var content = new Div(grid, achievementTypeForm);
+    var content = new Div(grid, entityForm);
     content.addClassName("content");
     content.setSizeFull();
 
@@ -49,7 +54,7 @@ public class ListView extends VerticalLayout {
 
     updateList();
 
-    closeEditor();
+    entityForm.closeEditor();
   }
 
 
@@ -76,7 +81,7 @@ public class ListView extends VerticalLayout {
 
   private void addAchievementType() {
     grid.asSingleSelect().clear();
-    editEntity(new AchievementType());
+    entityForm.editEntity(new AchievementType());
   }
 
 
@@ -87,38 +92,13 @@ public class ListView extends VerticalLayout {
     grid.setColumns("id", "published", "shortDescription", "type", "version");
     grid.getColumns().forEach(column -> column.setAutoWidth(true));
 
-    grid.asSingleSelect().addValueChangeListener(event -> editEntity(event.getValue()));
+    grid.asSingleSelect().addValueChangeListener(event -> entityForm.editEntity(event.getValue()));
   }
 
 
-  private void deleteAchievementType(AchievementTypeForm.DeleteEvent event) {
-    achievementTypeService.delete(event.getAchievementType());
-    updateList();
-    closeEditor();
-  }
-
-  private void saveAchievementType(AchievementTypeForm.SaveEvent event) {
-    achievementTypeService.save(event.getAchievementType());
-    updateList();
-    closeEditor();
-  }
 
 
-  private void editEntity(AchievementType achievementType) {
-    if (achievementType == null) {
-      closeEditor();
-    } else {
-      achievementTypeForm.setAchievementType(achievementType);
-      achievementTypeForm.setVisible(true);
-      addClassName("editing");
-    }
-  }
 
-  private void closeEditor() {
-    achievementTypeForm.setAchievementType(null);
-    achievementTypeForm.setVisible(false);
-    removeClassName("editing");
-  }
 
   private void updateList() {
     grid.setItems(achievementTypeService.findAll(countSelectedRows.getValue(), versionFilter.getValue()));

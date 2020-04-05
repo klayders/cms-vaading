@@ -14,4 +14,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 @EnableTransactionManagement
 public class DBConfig {
+
+  //    @Bean
+  //    public String dd(Repositories repositories){
+  //        System.out.println(repositories);
+  //        repositories.iterator().forEachRemaining(entity -> {
+  //            System.out.println(entity.getName());
+  //            for(var field : entity.getDeclaredFields()){
+  //                System.out.println(field.getName());
+  //            }
+  //            System.out.println();
+  //        });
+  //
+  //        return "memem";
+  //    }
 }

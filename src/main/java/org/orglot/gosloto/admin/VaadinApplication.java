@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
     exclude = {
         SecurityAutoConfiguration.class,
         RabbitAutoConfiguration.class,
-        RedisAutoConfiguration.class
+        RedisAutoConfiguration.class,
     })
 public class VaadinApplication {
 
