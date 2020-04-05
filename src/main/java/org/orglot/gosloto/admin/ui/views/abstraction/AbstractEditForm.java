@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -16,7 +17,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,9 +41,9 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
   private final List<AbstractField> vaadinComponentList = new ArrayList<>();
   private final JpaRepository repository;
   private final Grid<T> grid;
-  private final Button save = new Button("Сохранить");
-  private final Button delete = new Button("Удалить");
-  private final Button close = new Button("Закрыть");
+  private final Button save = new Button("Сохранить", event -> Notification.show("Сохранено"));
+  private final Button delete = new Button("Удалить", event -> Notification.show("Удалено"));
+  private final Button close = new Button("Закрыть", event -> Notification.show("Скрыто"));
 
 
   public AbstractEditForm(ApplicationContext applicationContext,
@@ -77,13 +77,13 @@ public abstract class AbstractEditForm<T extends ManagedEntity> extends FormLayo
 
   public <T extends ManagedEntity> void deleteAchievementType(AbstractEditForm.DeleteEvent event) {
     repository.delete(event.getEntity());
-        updateList();
+    updateList();
     closeEditor();
   }
 
   public void saveAchievementType(AbstractEditForm.SaveEvent event) {
     repository.save(event.getEntity());
-        updateList();
+    updateList();
     closeEditor();
   }
 

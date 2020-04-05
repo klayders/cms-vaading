@@ -9,9 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
-import org.orglot.gosloto.admin.ui.views.abstraction.AbstractListView;
 import org.orglot.gosloto.admin.ui.views.dashboard.DashBoardView;
-import org.orglot.gosloto.admin.ui.views.list.ListView;
 import org.orglot.gosloto.admin.ui.views.list.test.TestListView;
 
 //помоему эта страница использует дефолтный роутинг - localhost:8080/
