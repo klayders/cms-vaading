@@ -11,23 +11,10 @@ import com.vaadin.flow.router.Route;
 import org.orglot.gosloto.admin.backend.achievement.service.AchievementTypeService;
 import org.orglot.gosloto.admin.backend.image.service.ImageService;
 import org.orglot.gosloto.admin.ui.MainLayout;
-import org.orglot.gosloto.annotation.admin.table.AdminColumn;
-import org.orglot.gosloto.domain.achievement.AchievementType;
 
 @PageTitle("DashBoard | Stoloto CMS")
 @Route(value = "dashboard", layout = MainLayout.class)
 public class DashBoardView extends VerticalLayout {
-
-  public static void main(String[] args) {
-    Class<AchievementType> achievementTypeClass = AchievementType.class;
-    for(var field : achievementTypeClass.getDeclaredFields()){
-      for(var annotation : field.getAnnotations()){
-        if (annotation instanceof AdminColumn){
-          System.out.println(field.getName());
-        }
-      }
-    }
-  }
 
   private final AchievementTypeService achievementTypeService;
   private final ImageService imageService;
