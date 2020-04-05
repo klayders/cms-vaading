@@ -1,0 +1,20 @@
+
+.list-view .content{
+  display: flex;
+}
+
+.list-view .main-grid{
+  flex: 2;
+}
+
+.list-view .achievement-type-form{
+  flex: 1;
+  padding: var(--lumo-space-m);
+}
+
+@media all and (max-width: 1100px){
+  .list-view.editing .toolbar,
+  .list-view.editing .main-grid{
+    display: none;
+  }
+}
