@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     {
         "org.orglot.gosloto.dao.managed.dao",
         "org.orglot.gosloto.components.entity",
-        "org.orglot.gosloto.domain.achievement"
+        "org.orglot.gosloto.domain.achievement",
+        "org.orglot.gosloto.domain.faq"
     }
 )
 @EnableTransactionManagement
