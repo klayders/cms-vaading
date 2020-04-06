@@ -34,12 +34,12 @@ public class MainLayout extends AppLayout {
   }
 
   private void createDrawer() {
-    var listLink = new RouterLink("List", TestListView.class);
+//    var listLink = new RouterLink("List", TestListView.class);
     var dashboardRouting = new RouterLink("dashboard", DashBoardView.class);
-    listLink.setHighlightCondition(HighlightConditions.sameLocation());
+//    listLink.setHighlightCondition(HighlightConditions.sameLocation());
 
     addToDrawer(new VerticalLayout(
-        listLink,
+//        listLink,
         dashboardRouting
     ));
   }

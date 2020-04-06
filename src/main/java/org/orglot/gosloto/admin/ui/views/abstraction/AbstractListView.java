@@ -108,13 +108,11 @@ public abstract class AbstractListView<T extends ManagedEntity> extends Vertical
       );
       column.setHeader(i18nFieldName);
     });
-    //    grid.setColumns("id", "published", "shortDescription", "type", "version");
 
     grid.asSingleSelect().addValueChangeListener(event -> entityForm.editEntity(event.getValue()));
   }
 
   private void updateList() {
-    //    final List<AchievementType> all = repository.findAll(countSelectedRows.getValue(), versionFilter.getValue());
     var all = repository.findAll();
     grid.setItems(all);
   }

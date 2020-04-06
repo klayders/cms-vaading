@@ -1,4 +1,4 @@
-package org.orglot.gosloto.admin.config;
+package org.orglot.gosloto.admin.backend.config;
 
 import java.util.Locale;
 import org.springframework.context.MessageSource;
